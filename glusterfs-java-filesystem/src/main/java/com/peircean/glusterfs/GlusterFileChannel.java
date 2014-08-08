@@ -129,9 +129,9 @@ public class GlusterFileChannel extends FileChannel {
 	@Override
 	public int write(ByteBuffer byteBuffer) throws IOException {
 		guardClosed();
-		byte[] buf = byteBuffer.array();
+		byte[] buf = new byte[byteBuffer.remaining()];
+		byteBuffer.get(buf);
 		int written = GLFS.glfs_write(fileptr, buf, buf.length, 0);
-		byteBuffer.position(written);
 		return written;
 	}
 
